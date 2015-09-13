@@ -73,7 +73,7 @@ read on. If not, get used to being mocked.
 Installing kernelconfig
 =======================
 
-The best way is, if possible, to rely on you distribution's package manager.
+The best way is, if possible, to rely on your distribution's package manager.
 
 Alternatively you can install it from PyPI using pip. For example, as root:
 
@@ -168,7 +168,7 @@ Actions:
 
    Build the BLK_SD_DEV and ATA_AHCI drivers into the kernel so that it is
    bootable without the need for an initramfs.
- 
+
  * **module**: enable the option as module only so as to be able to only load
    it when desired. For example::
 
@@ -205,9 +205,9 @@ Liquorix
 --------
 
  * Name in settings: liquorix
- 
+
  * Supported architectures: i386, i686, x86_64
- 
+
  * Options:
 
    * --pae: enable Physical Address Extension on processors supporting it to
