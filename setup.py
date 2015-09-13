@@ -64,7 +64,7 @@ setuptools.setup(
         'Topic :: System :: Operating System Kernels :: Linux'],
     keywords='Linux kernel configuration',
     packages=setuptools.find_packages(),
-    install_requires=['beautifulsoup4'],
+    install_requires=['beautifulsoup4', 'lxml'],
     data_files=[('share/kernelconfig', glob.glob('sources/*')),
                 (etc_dir, glob.glob('settings/*')),
                 ('share/doc/kernelconfig-' + version, ['README.html'])],
