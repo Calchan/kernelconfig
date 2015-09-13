@@ -104,7 +104,8 @@ Optional arguments
  * -k KERNEL, --kernel KERNEL
 
    Path to the unpacked kernel sources directory. It can be absolute or
-   relative to the current working directory. The default is '.'.
+   relative to the current working directory. The default is '.', the current
+   working directory.
 
  * -s SETTINGS, --settings SETTINGS
 
