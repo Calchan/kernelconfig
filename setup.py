@@ -24,8 +24,6 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
-with codecs.open(os.path.join(here, 'VERSION'), encoding='utf-8') as f:
-    version = f.read().strip()
 
 # If the user requested a --user install from pip or does not have read, write
 # and execute access to /etc, then we install settings into
@@ -38,7 +36,7 @@ etc_dir = os.path.join(etc_dir, 'kernelconfig')
 
 setuptools.setup(
     name='kernelconfig',
-    version=version,
+    version=0.1,
     description="""
         Generate custom Linux kernel configurations from curated sources
         """,
