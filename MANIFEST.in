@@ -1,0 +1,2 @@
+recursive-include sources *
+recursive-include settings *
