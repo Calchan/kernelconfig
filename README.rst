@@ -225,3 +225,9 @@ Ubuntu
   * Options:
 
     * --lowlatency: enable low-latency timing and preemption options.
+
+
+Author
+======
+
+Please send comments, patches, flowers and insults to Denis Dupeyron <calchan@gentoo.org>
