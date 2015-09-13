@@ -1,0 +1,19 @@
+# Default settings for kernelconfig. This is just a very basic example which
+# happens to work on the author's dev box. Feel free to modify this to suit
+# your taste and needs, or write other settings files.
+
+[source]
+
+# Only the first source will be read.
+ubuntu --lowlatency
+
+
+[options]
+
+# Disable signature module verification
+disable MODULE_SIG
+
+# Since we do not use an initramfs, we want some drivers built-in, not as
+# modules.
+enable BLK_DEV_SD SATA_AHCI
+enable BTRFS_FS

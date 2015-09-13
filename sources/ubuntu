@@ -1,0 +1,149 @@
+#!/usr/bin/python3
+#  kernelconfig - Generate custom kernel configurations from curated sources
+#  Copyright (C) 2015 Denis Dupeyron <calchan@gentoo.org>
+#
+#  This program is free software: you can redistribute it and/or modify it under
+#  the terms of the GNU General Public License version 3, as published by the
+#  Free Software Foundation.
+#
+#  This program is distributed in the hope that it will be useful, but WITHOUT
+#  ANY WARRANTY; without even the implied warranties of MERCHANTABILITY,
+#  SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along with
+#  this program. If not, see <http://www.gnu.org/licenses/>.
+
+import argparse
+import re
+import operator
+import subprocess
+import sys
+import time
+from urllib import request
+
+from bs4 import BeautifulSoup
+
+
+def message(text):
+    print(text, file=sys.stderr) # NOQA
+
+
+def download(url):
+    message("Dowloading " + url)
+    with request.urlopen(url) as response:
+        return response.read()
+
+
+def add_splitconfig(splitconfig):
+    global splitconfigs
+    message("Adding " + splitconfig)
+    splitconfigs.append(splitconfig)
+
+
+argparser = argparse.ArgumentParser(description="""
+    Download Ubuntu base configurations.""")
+argparser.add_argument("arch", type=str, help="""
+    Architecture as given by 'uname -m'""")
+argparser.add_argument("version", type=str, help="""
+    Major kernel version in the form X.Y""")
+argparser.add_argument("--lowlatency", action='store_true', help="""
+    Enable low-latency timing and preemption (i386, i686 and x86_64 only)""")
+args = argparser.parse_args()
+
+# Everything starts from this page.
+top_url = 'http://kernel.ubuntu.com/~kernel-ppa/mainline/'
+# Download it.
+top_page = download(top_url)
+# Parse it.
+soup = BeautifulSoup(top_page, 'lxml')
+# The page only has a big table. Extract it.
+table = soup.find_all('table')[0]
+# The table is made of rows containing a version, a date and some cruft.
+all_versions = []
+for row in table:
+    version = ''
+    date = ''
+    try:
+        # Find the version number in that row.
+        for cell in row.find_all('a', href=True):
+            version = cell['href']
+        # Now try to search all cells for something looking like a date.
+        for cell in row.find_all('td'):
+            try:
+                date = time.strptime(cell.string, '%d-%b-%Y %H:%M  ')
+            # If the cell contents fail to convert to a date, skip it.
+            except (TypeError, ValueError):
+                pass
+    # If any of the find_all() above fails then skip the entire row.
+    except AttributeError:
+        pass
+    try:
+        # Create a tuple for each valid row with:
+        # - Complete version number as extrated above
+        # - Major kernel version number in the form X.Y
+        # - Time string in the form YYYYMMDDHHMM
+        all_versions.append((version,
+                             re.sub(r'v(\d*\.\d*).*', r'\1', version),
+                             time.strftime('%Y%m%d%H%M', date)))
+    # The header and footer rows do not contain suitable data and thus the
+    # conversions above for the major kernel version and the time string will
+    # fail. In that case skip the row.
+    except TypeError:
+        pass
+# Now just retain those rows whose major kernel version matches the one passed
+# as argument of this script.
+all_versions = [(lv, sv, d) for lv, sv, d in all_versions if sv == args.version]
+# Then sort them all chronologically using the time string.
+all_versions = sorted(all_versions, key=operator.itemgetter(2))
+# And finally select the last (most recent) one, and only keep the URL path.
+version_path = all_versions[-1][0]
+
+# We can now reconstruct the full URL to the page of the desired kernel.
+version_page = download(top_url + version_path)
+# And parse it.
+soup = BeautifulSoup(version_page, 'lxml')
+# One of the files we need has a variable name, let's figure it out.
+patch3_name = [cell.string for cell in soup.find_all('a', href=True) if
+               re.match(r'0003-configs-based-on-Ubuntu-.*\.patch',
+                        cell.string)][0]
+
+# The two files we need are patches.
+for patch_name in ['0001-base-packaging.patch', patch3_name]:
+    # Let's download them and save them to disk.
+    with open(patch_name, 'wb') as patch_file:
+        patch_file.write(download(top_url + version_path + patch_name))
+    # Apply them to nothing since there are only file creations.
+    message("Applying " + patch_name)
+    with open(patch_name, 'r') as patch_file:
+        subprocess.call(['patch', '--silent', '-p1'], stdin=patch_file)
+
+# We can start picking the files we need. All architectures need this one.
+splitconfigs = []
+add_splitconfig('config.common.ubuntu')
+
+# We add the architecture- and option-specific files to the list.
+# TODO Do it for the remaining architectures.
+
+if args.arch == 'i386' or args.arch == 'i686':
+    add_splitconfig('i386/config.common.i386')
+    if args.lowlatency:
+        add_splitconfig('i386/config.flavour.lowlatency')
+    else:
+        add_splitconfig('i386/config.flavour.generic')
+
+if args.arch == 'x86_64':
+    add_splitconfig('amd64/config.common.amd64')
+    if args.lowlatency:
+        add_splitconfig('amd64/config.flavour.lowlatency')
+    else:
+        add_splitconfig('amd64/config.flavour.generic')
+
+# We now have the list of necessary files. We just need to concatenate them.
+dotconfig = ""
+for splitconfig in splitconfigs:
+    with open('debian.master/config/' + splitconfig, 'r') as config_file:
+        dotconfig = dotconfig + config_file.read()
+
+# Finally we output the result to stdout for the main program to use it.
+print(dotconfig)
