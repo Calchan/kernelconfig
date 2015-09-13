@@ -36,7 +36,7 @@ etc_dir = os.path.join(etc_dir, 'kernelconfig')
 
 setuptools.setup(
     name='kernelconfig',
-    version=0.1,
+    version=0.1.1,
     description="""
         Generate custom Linux kernel configurations from curated sources
         """,
