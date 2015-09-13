@@ -1,2 +1,3 @@
 recursive-include sources *
 recursive-include settings *
+include README.html

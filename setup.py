@@ -14,6 +14,7 @@
 #  this program. If not, see <http://www.gnu.org/licenses/>.
 
 import codecs
+from docutils.core import publish_file
 import glob
 import os
 import setuptools
@@ -25,6 +26,11 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+# Generate README.html from README.rst
+with open('README.rst', 'r') as readme_rst, open('README.html', 'w') as \
+        readme_html:
+    publish_file(source=readme_rst, destination=readme_html, writer_name='html')
 
 # If the user requested a --user install from pip or does not have read, write
 # and execute access to /etc, then we install settings into
@@ -60,5 +66,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=['beautifulsoup4'],
     data_files=[('share/kernelconfig', glob.glob('sources/*')),
-                (etc_dir, glob.glob('settings/*'))],
+                (etc_dir, glob.glob('settings/*')),
+                ('share/doc/kernelconfig-' + version, ['README.html'])],
     entry_points={'console_scripts': ['kernelconfig=kernelconfig.main:run']})
