@@ -20,7 +20,7 @@ import os
 import setuptools
 import sys
 
-version='0.1.4'
+version='0.1.5'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
