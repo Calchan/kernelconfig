@@ -27,6 +27,10 @@ You can do that, for example::
 
     $ kernelconfig -k /usr/src/linux-4.2
 
+or simply, if you are already in '/usr/src/linux-4.2'::
+
+    $ kernelconfig
+
 and it will automatically generate the .config file for you. No questions
 asked.
 
