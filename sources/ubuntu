@@ -30,7 +30,7 @@ def message(text):
 
 
 def download(url):
-    message("Dowloading " + url)
+    message("Downloading " + url)
     with request.urlopen(url) as response:
         return response.read()
 
