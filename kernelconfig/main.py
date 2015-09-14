@@ -26,20 +26,29 @@ def run():
         Generate custom kernel configurations from known curated sources.
         """)
     argparser.add_argument("-a", "--arch", type=str, help="""
-        Force kernel configuration architecture (useful for cross-compiling).
+        Force the kernel configuration architecture. ARCH is as returned by
+        'uname -m'. Useful for cross-compiling.
         """)
     argparser.add_argument("-k", "--kernel", type=str, default='.', help="""
-        Path to unpacked kernel source directory (default: '.').
+        Path to the unpacked kernel sources directory. It can be absolute or
+        relative to the current working directory. The default is '.', the
+        current working directory.
         """)
     argparser.add_argument("-s", "--settings", type=str,
                            default='default',
                            help="""
-        Path to Settings file (relative or absolute, see documentation, default:
-        'default').
+        Path to the settings file. It can be an absolute or user-expandable
+        path to an arbitrary file. If it is a relative path, then the file will
+        be searched for relatively to ~/.config/kernelconfig first and then
+        /etc/kernelconfig. Sub-directories relative to both these locations can
+        be used. If a path relative to the current working directory is desired
+        prefix it with './'. The default is 'default', i.e.,
+        '~/.config/kernelconfig/default' if it exists, or, failing that,
+        '/etc/kernelconfig/default'.
         """)
     argparser.add_argument("-v", "--version", type=str, help="""
-        Force kernel configuration version (useful when there is no matching
-        major kernel version in the curated source).
+        Force the kernel configuration version. Useful when there is no
+        matching major kernel version in the curated source.
         """)
     args = argparser.parse_args()
 
