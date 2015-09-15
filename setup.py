@@ -14,13 +14,33 @@
 #  this program. If not, see <http://www.gnu.org/licenses/>.
 
 import codecs
-from docutils.core import publish_file
 import glob
+import importlib
 import os
 import setuptools
 import sys
 
-version='0.1.5'
+
+version = '0.1.5'
+
+
+# Automatically installing python packages with system dependencies can be
+# tricky on some binary distributions, so we ask the user to install them using
+# their distribution's package manager.
+missing_packages = []
+for package in ['bs4', 'docutils', 'lxml']:
+    if not importlib.find_loader(package):
+        missing_packages.append(package)
+if missing_packages:
+    print("The following packages cannot be found on your system, it is",
+          "recommended to install them using your distribution's package",
+          "manager:")
+    for package in missing_packages:
+        print(package)
+    sys.exit(1)
+
+# We can now import docutils
+from docutils.core import publish_file
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -41,6 +61,7 @@ else:
     etc_dir = '/etc'
 etc_dir = os.path.join(etc_dir, 'kernelconfig')
 
+# The actual setuptools information
 setuptools.setup(
     name='kernelconfig',
     version=version,
@@ -64,7 +85,6 @@ setuptools.setup(
         'Topic :: System :: Operating System Kernels :: Linux'],
     keywords='Linux kernel configuration',
     packages=setuptools.find_packages(),
-    install_requires=['beautifulsoup4', 'lxml'],
     data_files=[('share/kernelconfig', glob.glob('sources/*')),
                 (etc_dir, glob.glob('settings/*')),
                 ('share/doc/kernelconfig-' + version, ['README.html'])],
