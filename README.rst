@@ -76,7 +76,13 @@ Installing kernelconfig
 
 The best way is, if possible, to rely on your distribution's package manager.
 
-Alternatively you can install it from PyPI using pip. For example, as root::
+You will need the following python 3 packages: docutils, lxml and version 4 or
+later of BeautifulSoup. Depending on your distribution, these can also be
+called python-beautifulsoup, python3-bs4, python-lxml, python3-lxml,
+python3-docutils, etc... Make sure you only get python 3 packages as
+kernelconfig is not compatible with python 2.
+
+You can install from PyPI using pip. For example, as root::
 
     $ pip3 install kernelconfig
 
