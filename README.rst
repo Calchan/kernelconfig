@@ -189,7 +189,7 @@ Actions:
 
    Use Budget Fair Queueing as the default I/O scheduler.
 
-Note 1. Do no prefix options names with 'CONFIG\_'. kernelconfig takes care of
+Note 1. Do not prefix options names with 'CONFIG\_'. kernelconfig takes care of
 that for you.
 
 Note 2. Option names will always be capitalized for you if you don't. It is
