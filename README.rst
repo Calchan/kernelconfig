@@ -76,14 +76,14 @@ Installing kernelconfig
 
 The best way is, if possible, to rely on your distribution's package manager.
 
-Alternatively you can install it from PyPI using pip. For example, as root:
+Alternatively you can install it from PyPI using pip. For example, as root::
 
     $ pip3 install kernelconfig
 
 The default settings file and examples will be installed into
 '/etc/kernelconfig'.
 
-Whether root or not, it is possible to make a user installation, like this:
+Whether root or not, it is possible to make a user installation, like this::
 
     $ pip3 install --user kernelconfig
 
