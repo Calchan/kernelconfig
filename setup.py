@@ -32,7 +32,7 @@ for package in ['bs4', 'docutils', 'lxml']:
     if not importlib.find_loader(package):
         missing_packages.append(package)
 if missing_packages:
-    print("The following packages cannot be found on your system, it is",
+    print("The following python packages cannot be found on your system, it is",
           "recommended to install them using your distribution's package",
           "manager:")
     for package in missing_packages:
