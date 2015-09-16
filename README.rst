@@ -7,12 +7,10 @@ Generate custom Linux kernel configurations from curated sources.
 
 (Note. kernelconfig is a port to python of a previously privately-only released
 tool called genconfig. The latter, before it died a horrible death at 5400rpm
-or so, had much more advanced features than kernelconfig has right now, but
-these will be re-introduced progressively. Error handling is currently mostly
-taken care of by python, so, although it won't send you off track, error
-messages may look a bit cryptic at times. This too will be improved.
-kernelconfig is however released now since, even in its current state, it is
-very functional and equally useful.)
+or so, had much more advanced features, but these will be re-introduced
+progressively. Error handling is currently mostly taken care of by python, so,
+although it won't send you off track, error messages may look a bit cryptic at
+times. This too will be improved.)
 
 
 Introduction
@@ -23,30 +21,29 @@ the kernel you want to compile from a curated source of your choice (Debian,
 Ubuntu, Fedora, Liquorix, etc...), customize it with a number of options which
 suit your taste and needs, and much more.
 
-You can do that, for example::
-
-    $ kernelconfig -k /usr/src/linux-4.2
-
-or simply, if you are already in '/usr/src/linux-4.2'::
+You can do that, for example, from within the kernel sources directory::
 
     $ kernelconfig
 
-and it will automatically generate the .config file for you. No questions
-asked.
+and it will automatically generate the .config file for you, using the default
+settings (see below). No questions asked.
 
-Or that::
+If you are not in the kernel sources directory and these are located in
+'/usr/src/linux-4.2'::
+
+    $ kernelconfig -k /usr/src/linux-4.2
+
+In case the curated source in your settings does not have a base configuration
+for kernel version 4.2 but has one for version 4.1::
 
     $ kernelconfig -k /usr/src/linux-4.2 -v 4.1
 
-in case the curated source in your settings does not have a base configuration
-for kernel version 4.2 but has one for version 4.1. Expect to have to answer
-some questions if/when you run 'make oldconfig' before compiling your kernel.
+Expect to have to answer some questions if/when you run 'make oldconfig' before
+compiling your kernel.
 
-Or, still::
+Finally, if you are going to cross-compile a kernel for arm::
 
-    $ kernelconfig -k /usr/src/linux-4.2 --arch arm
-
-if you are going to cross-compile a kernel for arm.
+    $ kernelconfig --arch arm
 
 Here is a simple example of a settings file::
 
