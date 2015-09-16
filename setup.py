@@ -85,7 +85,7 @@ setuptools.setup(
         'Topic :: System :: Operating System Kernels :: Linux'],
     keywords='Linux kernel configuration',
     packages=setuptools.find_packages(),
-    data_files=[('share/kernelconfig', glob.glob('sources/*')),
+    data_files=[('share/kernelconfig/sources', glob.glob('sources/*')),
                 (etc_dir, glob.glob('settings/*')),
                 ('share/doc/kernelconfig-' + version, ['README.html'])],
     entry_points={'console_scripts': ['kernelconfig=kernelconfig.main:run']})

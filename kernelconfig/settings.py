@@ -70,7 +70,8 @@ class Settings:
             # The actual command is the first item, prefix it with the path to
             # get at it.
             # TODO allow path to an arbitrary file
-            base_cmd[0] = path.join(here, '../../../../share/kernelconfig',
+            base_cmd[0] = path.join(here,
+                                    '../../../../share/kernelconfig/sources',
                                     base_cmd[0])
             # Insert the desired architecture and version as the first and
             # second mandatory arguments.
