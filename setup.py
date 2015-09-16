@@ -55,7 +55,7 @@ with open('README.rst', 'r') as readme_rst, open('README.html', 'w') as \
 # If the user requested a --user install from pip or does not have read, write
 # and execute access to /etc, then we install settings into
 # ~/.config/kernelconfig instead instead of /etc/kernelconfig.
-if '--user' in sys.argv or not os.access('/etc', os.R_OK | os.W_OK | os.X_OK):
+if '--user' in sys.argv:
     etc_dir = '../.config'
 else:
     etc_dir = '/etc'
