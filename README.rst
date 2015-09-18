@@ -16,10 +16,15 @@ times. This too will be improved.)
 Introduction
 ============
 
-TL;DR kernelconfig will automatically download a base configuration matching
-the kernel you want to compile from a curated source of your choice (Debian,
-Ubuntu, Fedora, Liquorix, etc...), customize it with a number of options which
-suit your taste and needs, and much more.
+TL;DR Compiling a kernel is easy, configuring it not so much. Unless you have
+the time and skill to follow kernel development, it is best to leave that to a
+team of specialists. But where to download up to date configurations? What to
+do if you need to do the same changes over and over with each new version?
+Enter kernelconfig. It will automatically download a base configuration
+matching the kernel you want to compile from a curated source of your choice
+(Debian, Ubuntu, Fedora, Liquorix, etc...), customize it with a number of
+options which suit your taste and needs, apply macros to set a number of
+options in a smart way, and more.
 
 You can do that, for example, from within the kernel sources directory::
 
