@@ -52,8 +52,9 @@ def run():
         """)
     args = argparser.parse_args()
 
-    kernel = kernel.Kernel(args.kernel)
-    settings = settings.Settings(args.settings, args.kernel)
+    kernel_path = os.path.abspath(os.path.expanduser(args.kernel))
+    kernel = kernel.Kernel(kernel_path)
+    settings = settings.Settings(args.settings, kernel_path)
 
     kernel.backup_config()
 

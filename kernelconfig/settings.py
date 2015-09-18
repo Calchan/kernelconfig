@@ -75,15 +75,10 @@ class Settings:
                                     base_cmd[0])
             # Insert the desired architecture and version as the first and
             # second mandatory arguments.
-            base_cmd[1:1] = [arch, version]
+            base_cmd[1:1] = [self._config_path, arch, version]
             # Call the source script and add the original arguments if any at
             # the end.
-            with open(self._config_path, 'wb') as config:
-                # The source script returns the base configuration into stdout,
-                # any informational message is sent to stderr. Thus, grab what
-                # returns in stdout and save it as .config (which will be
-                # further modified) in the kernel sources directory.
-                config.write(subprocess.check_output(base_cmd, cwd=tmpdir))
+            subprocess.check_output(base_cmd, cwd=tmpdir)
 
     def process_options(self):
         # Read the .config in the kernel sources directory into memory, so that

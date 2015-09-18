@@ -43,6 +43,8 @@ def add_splitconfig(splitconfig):
 
 argparser = argparse.ArgumentParser(description="""
     Download Ubuntu base configurations.""")
+argparser.add_argument("config", type=str, help="""
+    Absolute path to kernel config""")
 argparser.add_argument("arch", type=str, help="""
     Architecture as given by 'uname -m'""")
 argparser.add_argument("version", type=str, help="""
@@ -139,11 +141,9 @@ if args.arch == 'x86_64':
     else:
         add_splitconfig('amd64/config.flavour.generic')
 
-# We now have the list of necessary files. We just need to concatenate them.
-dotconfig = ""
-for splitconfig in splitconfigs:
-    with open('debian.master/config/' + splitconfig, 'r') as config_file:
-        dotconfig = dotconfig + config_file.read()
-
-# Finally we output the result to stdout for the main program to use it.
-print(dotconfig)
+# We now have the list of necessary files. We just need to concatenate them and
+# save the result.
+with open(args.config, 'w') as config_file:
+    for splitconfig in splitconfigs:
+        with open('debian.master/config/' + splitconfig, 'r') as split_file:
+            config_file.write(split_file.read())
