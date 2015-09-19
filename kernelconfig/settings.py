@@ -17,12 +17,7 @@ import configparser
 from os import path
 import re
 import subprocess
-import sys
 import tempfile
-
-
-def message(text):
-    print(text, file=sys.stderr) # NOQA
 
 
 class Settings:
@@ -50,7 +45,7 @@ class Settings:
         if not path.isfile(settings_file):
             raise OSError("settings file not found (" + settings + ")")
         # File exists, we're go. Inform the user.
-        message("Using settings in " + settings_file)
+        print("Using settings in " + settings_file)
         # Read the settings file.
         self._settings.read(settings_file)
         # Set the path to the .config file in the kernel sources directory.
@@ -78,7 +73,7 @@ class Settings:
             base_cmd[1:1] = [self._config_path, arch, version]
             # Call the source script and add the original arguments if any at
             # the end.
-            subprocess.check_output(base_cmd, cwd=tmpdir)
+            subprocess.check_call(base_cmd, cwd=tmpdir)
 
     def process_options(self):
         # Read the .config in the kernel sources directory into memory, so that
@@ -105,7 +100,7 @@ class Settings:
     def _enable(self, option_list):
         # There can be multiple options to enable on the same line.
         for option in option_list:
-            message("Enabling " + option.upper())
+            print("Enabling " + option.upper())
             # Delete any occurence of this option in the current .config file.
             self._delete_option(option.upper())
             # Add enabled option at the end of the .config file.
@@ -114,7 +109,7 @@ class Settings:
     def _disable(self, option_list):
         # There can be multiple options to disable on the same line.
         for option in option_list:
-            message("Disabling " + option.upper())
+            print("Disabling " + option.upper())
             # Delete any occurence of this option in the current .config file.
             self._delete_option(option.upper())
             # Add disabled option at the end of the .config file.
@@ -124,7 +119,7 @@ class Settings:
     def _module(self, option_list):
         # There can be multiple options to set as module on the same line.
         for option in option_list:
-            message("Setting " + option.upper() + " as module")
+            print("Setting " + option.upper() + " as module")
             # Delete any occurence of this option in the current .config file.
             self._delete_option(option.upper())
             # Add option as module at the end of the .config file.
@@ -134,7 +129,7 @@ class Settings:
         # There can be multiple options to set to a value on the same line.
         for option in option_list:
             option = option.split('=')[0].upper() + "=" + option.split('=')[1]
-            message("Setting " + option)
+            print("Setting " + option)
             # Delete any occurence of this option in the current .config file.
             self._delete_option(option.split('=')[0].upper())
             # Add option set to value at the end of the .config file.

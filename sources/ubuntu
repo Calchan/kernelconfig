@@ -18,26 +18,21 @@ import argparse
 import re
 import operator
 import subprocess
-import sys
 import time
 from urllib import request
 
 from bs4 import BeautifulSoup
 
 
-def message(text):
-    print(text, file=sys.stderr) # NOQA
-
-
 def download(url):
-    message("Downloading " + url)
+    print("Downloading " + url)
     with request.urlopen(url) as response:
         return response.read()
 
 
 def add_splitconfig(splitconfig):
     global splitconfigs
-    message("Adding " + splitconfig)
+    print("Adding " + splitconfig)
     splitconfigs.append(splitconfig)
 
 
@@ -116,7 +111,7 @@ for patch_name in ['0001-base-packaging.patch', patch3_name]:
     with open(patch_name, 'wb') as patch_file:
         patch_file.write(download(top_url + version_path + patch_name))
     # Apply them to nothing since there are only file creations.
-    message("Applying " + patch_name)
+    print("Applying " + patch_name)
     with open(patch_name, 'r') as patch_file:
         subprocess.call(['patch', '--silent', '-p1'], stdin=patch_file)
 

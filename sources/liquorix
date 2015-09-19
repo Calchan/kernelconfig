@@ -9,6 +9,6 @@ elif [[ "${2}" == "i386" ]] || [[ "${2}" == "i686" ]]; then
 	fi
 fi
 name="config.${name}"
-echo "Downloading ${name} from Liquorix" > /dev/stderr
+echo "Downloading ${name} from Liquorix"
 wget --quiet "http://liquorix.net/sources/${3}/${name}"
 cp "${name}" "${1}"
