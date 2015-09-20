@@ -24,8 +24,13 @@ class Kernel:
         # User-expant the kernel sources location if necessary.
         self.location = path.expanduser(location)
         # Read the Makefile into memory.
-        with open(path.join(self.location, 'Makefile'), 'r') as makefile:
-            makefile_contents = makefile.read()
+        try:
+            with open(path.join(self.location, 'Makefile'), 'r') as makefile:
+                makefile_contents = makefile.read()
+        except:
+            print("Are you sure", self.location, "is a directory with kernel",
+                  "sources?")
+            exit(1)
         # Extract version.
         version = re.sub(r'.*VERSION\s=\s(\d*)[\s\n]+.*', r'\1',
                          makefile_contents, flags=re.DOTALL)
@@ -38,6 +43,14 @@ class Kernel:
         # Extract extra version.
         extra = re.sub(r'.*EXTRAVERSION\s=\s([^\s\n]*)[\s\n]+.*', r'\1',
                        makefile_contents, flags=re.DOTALL)
+        if version == "" or patchlevel == "" or sub == "":
+            print("The kernel Makefile does not contain proper version",
+                  "information.")
+            exit(1)
+        # Extract version name.
+        name = re.sub(r'.*NAME\s=\s([^\n]*)\n+.*', r'\1',
+                      makefile_contents, flags=re.DOTALL)
+        print(name)
         # Build major version number.
         self.major_version = version + "." + patchlevel
         # Build full version number.
