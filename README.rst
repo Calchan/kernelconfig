@@ -242,6 +242,8 @@ Ubuntu
 TODO
 ====
 
+ * Add better error checking and feedback
+
  * Add sources: defconfig, fedora, centos, debian, genkernel, etc...
 
  * Centralize functions necessary to multiple sources
