@@ -239,6 +239,20 @@ Ubuntu
     * --lowlatency: enable low-latency timing and preemption options.
 
 
+TODO
+====
+
+ * Add sources: defconfig, fedora, centos, debian, genkernel, etc...
+
+ * Centralize functions necessary to multiple sources
+
+ * Add macros, parameterized macros, conditional macros
+
+ * Autodetect hardware
+
+ * Integrate with genkernel
+
+
 Author
 ======
 
