@@ -102,7 +102,7 @@ version_page = download(top_url + version_path)
 soup = BeautifulSoup(version_page, 'lxml')
 # One of the files we need has a variable name, let's figure it out.
 patch3_name = [cell.string for cell in soup.find_all('a', href=True) if
-               re.match(r'0003-configs-based-on-Ubuntu-.*\.patch',
+               re.match(r'[0-9]*-configs-based-on-Ubuntu-.*\.patch',
                         cell.string)][0]
 
 # The two files we need are patches.
