@@ -68,7 +68,7 @@ for row in table:
         # Now try to search all cells for something looking like a date.
         for cell in row.find_all('td'):
             try:
-                date = time.strptime(cell.string, '%d-%b-%Y %H:%M  ')
+                date = time.strptime(cell.string, '%Y-%m-%d %H:%M  ')
             # If the cell contents fail to convert to a date, skip it.
             except (TypeError, ValueError):
                 pass
