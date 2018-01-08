@@ -65,9 +65,7 @@ etc_dir = os.path.join(etc_dir, 'kernelconfig')
 setuptools.setup(
     name='kernelconfig',
     version=version,
-    description="""
-        Generate custom Linux kernel configurations from curated sources
-        """,
+    description="""Generate custom Linux kernel configurations from curated sources""",
     long_description=long_description,
     url="https://github.com/Calchan/kernelconfig",
     author='Denis Dupeyron',
