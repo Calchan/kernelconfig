@@ -1,19 +1,33 @@
-# Default settings for kernelconfig. This is just a very basic example which
-# happens to work on the author's dev box. Feel free to modify this to suit
-# your taste and needs, or write other settings files.
-
 [source]
 
-# Only the first source will be read.
-ubuntu --lowlatency
+ubuntu
 
 
 [options]
 
-# Disable signature module verification
+# Gentoo and OpenRC
+enable BINFMT_SCRIPT
+enable CGROUPS NAMESPACES IPC_NS NET_NS SYSVIPC
+enable DEVTMPFS TMPFS MMU SHMEM
+
+# Most recent architecture in vanilla kernel
+enable MCORE2
+
+# We don't want module signing
 disable MODULE_SIG
 
-# Since we do not use an initramfs, we want some drivers built-in, not as
-# modules.
-enable BLK_DEV_SD SATA_AHCI
-enable BTRFS_FS
+# Not using an initramfs so we want those built-in, not as modules
+enable SATA_AHCI BLK_DEV_NVME
+enable EXT4_FS BTRFS_FS
+
+# Uncomment this line if you use the proprietary NVIDIA graphics driver
+#disable FB AGP DRM VGA_SWITCHEROO
+
+# Recommended for pulseaudio on HD Audio
+set SND_HDA_PREALLOC_SIZE=2048
+
+# USB printers are managed via libusb
+disable USB_PRINTER
+
+# Docker
+enable MEMCG_SWAP_ENABLED RT_GROUP_SCHED
