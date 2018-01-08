@@ -21,7 +21,7 @@ import setuptools
 import sys
 
 
-version = '0.3.2'
+version = '0.3.3'
 
 
 # Automatically installing python packages with system dependencies can be
