@@ -213,6 +213,14 @@ Curated sources
 Here is a list of the currently supported curated sources. More will come.
 
 
+Arch
+--------
+
+ * Name in settings: arch
+
+ * Supported architectures: x86_64
+
+
 Liquorix
 --------
 

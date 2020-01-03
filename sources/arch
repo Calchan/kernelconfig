@@ -1,0 +1,31 @@
+#!/bin/sh
+
+IFS=$'\n'
+
+history_url='https://git.archlinux.org/svntogit/packages.git/log/trunk/PKGBUILD?h=packages/linux&ofs='
+commit_url='https://git.archlinux.org/svntogit/packages.git/plain/trunk/PKGBUILD?h=packages/linux&id='
+config_url='https://git.archlinux.org/svntogit/packages.git/plain/trunk/config?h=packages/linux&id='
+
+if [[ "${2}" != "x86_64" ]]; then
+    echo "Architecture ${2} is not supported by Arch"
+    exit 1
+fi
+
+kernel_maj_min=$(echo ${3} | sed 's/^\([0-9]*\)\.\([0-9]*\)\..*/\1.\2/')
+
+offset=0
+while true; do
+    commit_lines=$(curl -s "${history_url}${offset}" | grep "<tr><td>.*</td><td><a href='/svntogit/packages.git/commit/trunk/PKGBUILD?h=packages/linux&amp;id=")
+    for line in ${commit_lines}; do
+        commit=$(echo ${line} | sed "s/.*linux&amp;id=\([a-f0-9]*\)'>.*/\1/")
+        message=$(echo ${line} | sed "s/.*linux&amp;id=[a-f0-9]*'>\([^<]*\)<.*/\1/")
+        pkg_maj_min=$(echo ${message} | sed 's/^\([0-9]*\)\.\([0-9]*\)\..*/\1.\2/')
+        if [[ "${pkg_maj_min}" == "${kernel_maj_min}" ]]; then
+            echo "Using configuration from Arch kernel ${message}"
+            curl -s "${config_url}${commit}" > arch_config
+            cp arch_config "${1}"
+            exit
+        fi
+    done
+    offset=$((offset+50))
+done

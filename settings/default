@@ -1,30 +1,15 @@
 [source]
-
-ubuntu
-
+arch
 
 [options]
 
-# Gentoo and OpenRC
-enable BINFMT_SCRIPT
-enable CGROUPS NAMESPACES IPC_NS NET_NS SYSVIPC
-enable DEVTMPFS TMPFS MMU SHMEM
-
-# Most recent architecture in vanilla kernel
 enable MCORE2
 
-# We don't want module signing
-disable MODULE_SIG
-
 # Not using an initramfs so we want those built-in, not as modules
-enable SATA_AHCI BLK_DEV_NVME
-enable EXT4_FS BTRFS_FS
+enable ATA SATA_AHCI BLK_DEV_NVME EXT4_FS BTRFS_FS
 
-# Uncomment this line if you use the proprietary NVIDIA graphics driver
-#disable FB AGP DRM VGA_SWITCHEROO
-
-# Recommended for pulseaudio on HD Audio
-set SND_HDA_PREALLOC_SIZE=2048
+# ThinkPad X1 Carbon
+enable TCG_TPM TCG_CRB
 
 # USB printers are managed via libusb
 disable USB_PRINTER
